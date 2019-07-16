@@ -26,4 +26,11 @@ export class TasksService {
     this.tasks.push(task);
     return task;
   }
+
+  async deleteTask(id: string): Promise<void> {
+    const index = this.tasks.findIndex(t => t.id === id);
+    if (index >= 0) {
+      this.tasks.splice(index, 1);
+    }
+  }
 }
