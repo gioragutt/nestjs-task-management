@@ -1,20 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import {
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common/exceptions';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import * as uuid from 'uuid/v1';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Task, TaskStatus } from './tasks.model';
 
 const noSuchId = (id: string) => new NotFoundException(`No task with id ${id}`);
-
-function validateStatus(status: TaskStatus) {
-  if (!(status in TaskStatus)) {
-    throw new BadRequestException(`TaskStatus '${status}' is invalid`);
-  }
-}
 
 @Injectable()
 export class TasksService {
@@ -24,20 +15,22 @@ export class TasksService {
     return this.tasks;
   }
 
-  async getTasksWithFilters({ search, status }: GetTasksFilterDto): Promise<Task[]> {
-    if (status) {
-      validateStatus(status);
-    }
+  async getTasksWithFilters({
+    search,
+    status,
+  }: GetTasksFilterDto): Promise<Task[]> {
     let tasks = await this.getAllTasks();
     if (status) {
       tasks = tasks.filter(t => t.status === status);
     }
     if (search) {
       search = search.toLowerCase();
-      tasks = tasks.filter(({ status: s, title, description }) =>
-        s.toLowerCase().includes(search) ||
-        title.toLowerCase().includes(search) ||
-        description.toLowerCase().includes(search));
+      tasks = tasks.filter(
+        ({ status: s, title, description }) =>
+          s.toLowerCase().includes(search) ||
+          title.toLowerCase().includes(search) ||
+          description.toLowerCase().includes(search),
+      );
     }
     return tasks;
   }
@@ -71,7 +64,6 @@ export class TasksService {
 
   async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
     const task = await this.getTaskById(id);
-    validateStatus(status);
     task.status = status;
     return task;
   }
