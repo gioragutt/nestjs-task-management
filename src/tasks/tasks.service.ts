@@ -19,7 +19,7 @@ export class TasksService {
     const task: Task = {
       id: uuid(),
       ...dto,
-      status: TaskStatus.Open,
+      status: TaskStatus.OPEN,
     };
 
     this.tasks.push(task);
