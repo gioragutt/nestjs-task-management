@@ -12,6 +12,10 @@ export class TasksService {
     return this.tasks;
   }
 
+  async getTaskById(id: Task['id']): Promise<Task> {
+    return this.tasks.find(t => t.id === id);
+  }
+
   async createTask(dto: CreateTaskDto): Promise<Task> {
     const task: Task = {
       id: uuid(),
