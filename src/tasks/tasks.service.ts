@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from './tasks.model';
-import { TaskStatus } from './tasks.model';
 import * as uuid from 'uuid/v1';
 import { CreateTaskDto } from './dto';
+import { Task, TaskStatus } from './tasks.model';
 
 @Injectable()
 export class TasksService {
@@ -32,5 +31,11 @@ export class TasksService {
     if (index >= 0) {
       this.tasks.splice(index, 1);
     }
+  }
+
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+    task.status = status;
+    return task;
   }
 }
