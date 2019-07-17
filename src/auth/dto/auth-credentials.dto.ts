@@ -10,7 +10,8 @@ export class AuthCredentialsDto {
   @MinLength(8)
   @MaxLength(20)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password must have at least one lowercase letter, one uppercase letter, and at least one number or special character',
+    message:
+      'password must have at least one lowercase letter, one uppercase letter, and at least one number or special character',
   })
   password: string;
 }
