@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TasksController } from './tasks.controller';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { TaskStatus } from './tasks.model';
+import { TaskStatus } from './task-status';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 
@@ -53,7 +53,7 @@ describe('Tasks Controller', () => {
   describe('PATCH /tasks/:id/status', () => {
     it('should throw if called with unexisting id', async () => {
       await expect(
-        controller.updateTaskStatus('', TaskStatus.IN_PROGRESS),
+        controller.updateTaskStatus(0, TaskStatus.IN_PROGRESS),
       ).rejects.toThrow(NotFoundException);
     });
 
